@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_nubank_clone/widgets/service_card.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,6 +9,32 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool _isExpanded = false;
+  List<Widget> _serviceList;
+
+  @override
+  void initState() {
+    super.initState();
+    _serviceList = [
+      ServiceCard(
+        topIcon: Icons.credit_card,
+        bottomIcon: Icons.laptop_mac,
+        bottomText: 'Compra mais recente em Logo Ali Empreencimento no valor de R\$ 3.262,16',
+        child: Text('data'),
+      ),
+      ServiceCard(
+        topIcon: Icons.credit_card,
+        bottomIcon: Icons.credit_card,
+        bottomText: 'Compra em Ambev de R\$ 100,00 no débito ontem',
+        child: Text('data'),
+      ),
+      ServiceCard(
+        topIcon: Icons.credit_card,
+        bottomIcon: Icons.fastfood,
+        bottomText: 'Apagar compra de R\$ 60,00 em Restaurante Give Me Food com 6.000pts',
+        child: Text('data'),
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +75,8 @@ class _HomeState extends State<Home> {
                   'Matheus',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
                   ),
                 ),
               ),
@@ -76,11 +104,7 @@ class _HomeState extends State<Home> {
       width: 300,
       margin: const EdgeInsets.all(16.0),
       child: ListView(
-        children: <Widget>[
-          Text('data'),
-          Text('data'),
-          Text('data'),
-        ],
+        children: _serviceList,
       ),
     );
   }

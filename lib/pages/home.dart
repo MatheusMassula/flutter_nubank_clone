@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_nubank_clone/widgets/card_header.dart';
 import 'package:flutter_nubank_clone/widgets/service_card.dart';
 
 class Home extends StatefulWidget {
@@ -24,40 +25,13 @@ class _HomeState extends State<Home> {
         bottomIcon: Icons.laptop_mac,
         bottomText: 'Compra mais recente em Logo Ali Empreencimento no valor de R\$ 3.262,16',
         child: _buildServiceSummary(
-          header: _buildServiceCardHeader(icon: Icons.credit_card, text: 'Crartão de crédito'),
+          header: CardHeader(icon: Icons.credit_card, title: 'Crartão de crédito'),
           summary: Padding(
             padding: const EdgeInsets.only(left: 32.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(
-                  height: 50,
-                ),
-                Text(
-                  'FATURA ATUAL',
-                  style: TextStyle(color: const Color(0xff51b6c5))
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: 'R\$ ',
-                    style: TextStyle(color: const Color(0xff51b6c5),fontSize: 35),
-                    children: <TextSpan>[
-                      TextSpan(text: '1.490', style: TextStyle(fontWeight: FontWeight.bold, color: const Color(0xff51b6c5), fontSize: 35)),
-                      TextSpan(text: ',04', style: TextStyle(color: const Color(0xff51b6c5), fontSize: 35)),
-                    ],
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: 'Limite disponível ',
-                    style: TextStyle(color: Colors.black),
-                    children: [
-                      TextSpan(text: 'R\$ 0,00', style: TextStyle(color: const Color(0xffa8c850),fontWeight: FontWeight.bold))
-                    ]
-                  ),
-                ),
-              ],
+              children: _buildCreditCardServiceContent(),
             ),
           ),
           children: [
@@ -99,8 +73,15 @@ class _HomeState extends State<Home> {
         bottomIcon: Icons.credit_card,
         bottomText: 'Compra em Ambev de R\$ 100,00 no débito ontem',
         child: _buildServiceSummary(
-          header: _buildServiceCardHeader(icon: Icons.monetization_on, text: 'Conta'),
-          summary: Text('data')
+          header: CardHeader(icon: Icons.monetization_on, title: 'Conta'),
+          summary: Padding(
+            padding: const EdgeInsets.only(left: 32.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _buildAccountServiceContent(),
+            ),
+          ),
         ),
       ),
       ServiceCard(
@@ -108,8 +89,15 @@ class _HomeState extends State<Home> {
         bottomIcon: Icons.fastfood,
         bottomText: 'Apagar compra de R\$ 60,00 em Restaurante Give Me Food com 6.000pts',
         child: _buildServiceSummary(
-          header: _buildServiceCardHeader(icon: Icons.card_giftcard, text: 'Rewards'),
-          summary: Text('data')
+          header: CardHeader(icon: Icons.card_giftcard, title: 'Rewards'),
+          summary: Padding(
+            padding: const EdgeInsets.only(left: 32.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _buildRewardsServiceContent(),
+            ),
+          ),
         ),
       ),
     ];
@@ -131,6 +119,78 @@ class _HomeState extends State<Home> {
     );
   }
 
+  List<Widget> _buildCreditCardServiceContent() {
+    return [
+      SizedBox(
+        height: 50,
+      ),
+      Text(
+        'FATURA ATUAL',
+        style: TextStyle(color: const Color(0xff51b6c5))
+      ),
+      RichText(
+        text: TextSpan(
+          text: 'R\$ ',
+          style: TextStyle(color: const Color(0xff51b6c5),fontSize: 35),
+          children: <TextSpan>[
+            TextSpan(text: '1.490', style: TextStyle(fontWeight: FontWeight.bold, color: const Color(0xff51b6c5), fontSize: 35)),
+            TextSpan(text: ',04', style: TextStyle(color: const Color(0xff51b6c5), fontSize: 35)),
+          ],
+        ),
+      ),
+      RichText(
+        text: TextSpan(
+          text: 'Limite disponível ',
+          style: TextStyle(color: Colors.black),
+          children: [
+            TextSpan(text: 'R\$ 0,00', style: TextStyle(color: const Color(0xffa8c850),fontWeight: FontWeight.bold))
+          ]
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _buildAccountServiceContent() {
+    return [
+      SizedBox(height: 50),
+      Text('Saldo dinponível', style: TextStyle(color: Colors.grey)),
+      Text('R\$ 1.258,38', style: TextStyle(fontSize: 35)),
+    ];
+  }
+
+  List<Widget> _buildRewardsServiceContent() {
+    return [
+      SizedBox(height: 50),
+      RichText(
+        text: TextSpan(
+          text: '12.749 ',
+          style: TextStyle(color: const Color(0xFF76309c), fontWeight: FontWeight.bold, fontSize: 35),
+          children: [
+            TextSpan(
+              text: 'pts',
+              style: TextStyle(color: const Color(0xFF76309c), fontWeight: FontWeight.w300, fontSize: 35)
+            )
+          ]
+        ),
+      ),
+      RichText(
+        text: TextSpan(
+          text: 'Você acumulou ',
+          style: TextStyle(color: Colors.black),
+          children: [
+            TextSpan(
+              text: '3.999 pontos ',
+              style: TextStyle(color: const Color(0xFF76309c))
+            ),
+            TextSpan(
+              text: 'nos \núltimos 30 dias'
+            )
+          ]
+        )
+      )
+    ];
+  }
+ 
   ExpansionTile _buildSettingsSection() {
     return ExpansionTile(
       title: Column(
@@ -230,21 +290,6 @@ class _HomeState extends State<Home> {
           Text('data'),
         ],
       ),
-    );
-  }
-
-  Row _buildServiceCardHeader({@required IconData icon, @required String text}) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(32, 32, 16, 32),
-          child: Icon(icon),
-        ),
-        Text(text),
-        Expanded(child: Container(height: 0, width: 0))
-      ],
     );
   }
 

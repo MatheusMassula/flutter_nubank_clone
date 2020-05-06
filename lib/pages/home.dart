@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_nubank_clone/widgets/card_footer.dart';
 import 'package:flutter_nubank_clone/widgets/card_header.dart';
 import 'package:flutter_nubank_clone/widgets/service_card.dart';
 
@@ -10,6 +11,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool _isExpanded = false;
+  bool _isAccountAmoutVisible = false;
   List<Widget> _serviceList;
 
   @override
@@ -21,84 +23,90 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     _serviceList = [ //TODO: move it to init state
       ServiceCard(
-        topIcon: Icons.credit_card,
-        bottomIcon: Icons.laptop_mac,
-        bottomText: 'Compra mais recente em Logo Ali Empreencimento no valor de R\$ 3.262,16',
-        child: _buildServiceSummary(
-          header: CardHeader(icon: Icons.credit_card, title: 'Crartão de crédito'),
-          summary: Padding(
-            padding: const EdgeInsets.only(left: 32.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: _buildCreditCardServiceContent(),
-            ),
+        header: CardHeader(icon: Icons.credit_card, title: 'Crartão de crédito'),
+        content: Padding(
+          padding: const EdgeInsets.only(left: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _buildCreditCardServiceContent(),
           ),
-          children: [
-            Positioned(
-              right: 0,
-              height: MediaQuery.of(context).size.height * 0.3,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      width: 10,
-                      color: const Color(0xfff19e39),
-                    ),
+        ),
+        footer: CardFooter(icon: Icons.laptop_mac, text: 'Compra mais recente em Logo Ali Empreencimento no valor de R\$ 3.262,16'),
+        children: [
+          Positioned(
+            right: 0,
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: 10,
+                    color: const Color(0xfff19e39),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      width: 10,
-                      color: const Color(0xff52b8c5),
-                    ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: 10,
+                    color: const Color(0xff52b8c5),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      width: 10,
-                      color: const Color(0xffa8c850),
-                    )
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: 10,
+                    color: const Color(0xffa8c850),
                   )
-                ],
-              )
+                )
+              ],
             )
-          ]
-        ),
+          )
+        ],
       ),
       ServiceCard(
-        topIcon: Icons.credit_card,
-        bottomIcon: Icons.credit_card,
-        bottomText: 'Compra em Ambev de R\$ 100,00 no débito ontem',
-        child: _buildServiceSummary(
-          header: CardHeader(icon: Icons.monetization_on, title: 'Conta'),
-          summary: Padding(
-            padding: const EdgeInsets.only(left: 32.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: _buildAccountServiceContent(),
-            ),
+        header: CardHeader(icon: Icons.monetization_on, title: 'Conta'),
+        content: Padding(
+          padding: const EdgeInsets.only(left: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _buildAccountServiceContent(),
           ),
         ),
+        footer: CardFooter(icon: Icons.credit_card, text: 'Compra em Ambev de R\$ 100,00 no débito ontem'),
+        children: [
+          Positioned(
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16.0, right: 32.0),
+                child: IconButton(
+                  icon: Icon(_isAccountAmoutVisible ? Icons.visibility_off : Icons.visibility),
+                  onPressed: () {
+                    setState(() {
+                      _isAccountAmoutVisible = !_isAccountAmoutVisible;
+                    });
+                  }
+                ),
+              ),
+            )
+          )
+        ],
       ),
       ServiceCard(
-        topIcon: Icons.credit_card,
-        bottomIcon: Icons.fastfood,
-        bottomText: 'Apagar compra de R\$ 60,00 em Restaurante Give Me Food com 6.000pts',
-        child: _buildServiceSummary(
-          header: CardHeader(icon: Icons.card_giftcard, title: 'Rewards'),
-          summary: Padding(
-            padding: const EdgeInsets.only(left: 32.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: _buildRewardsServiceContent(),
-            ),
+        header: CardHeader(icon: Icons.card_giftcard, title: 'Rewards'),
+        content: Padding(
+          padding: const EdgeInsets.only(left: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _buildRewardsServiceContent(),
           ),
         ),
+        footer: CardFooter(icon: Icons.fastfood, text: 'Apagar compra de R\$ 60,00 em Restaurante Give Me Food com 6.000pts'),
       ),
     ];
     
@@ -121,9 +129,6 @@ class _HomeState extends State<Home> {
 
   List<Widget> _buildCreditCardServiceContent() {
     return [
-      SizedBox(
-        height: 50,
-      ),
       Text(
         'FATURA ATUAL',
         style: TextStyle(color: const Color(0xff51b6c5))
@@ -151,16 +156,37 @@ class _HomeState extends State<Home> {
   }
 
   List<Widget> _buildAccountServiceContent() {
-    return [
-      SizedBox(height: 50),
-      Text('Saldo dinponível', style: TextStyle(color: Colors.grey)),
-      Text('R\$ 1.258,38', style: TextStyle(fontSize: 35)),
-    ];
+    List<Widget> result = [];
+
+    result.add(Text('Saldo dinponível', style: TextStyle(color: Colors.grey)));
+
+    if(_isAccountAmoutVisible) {
+      result.add(Text('R\$ 1.258,38', style: TextStyle(fontSize: 35)));
+    }
+    else {
+      result.add(
+        Container(
+          height: 42,
+          width: 150,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Colors.grey.shade200,
+                Colors.grey.shade100
+              ]
+            ),
+          ),
+        )
+      );
+    }
+
+    return result;
   }
 
   List<Widget> _buildRewardsServiceContent() {
     return [
-      SizedBox(height: 50),
       RichText(
         text: TextSpan(
           text: '12.749 ',
@@ -290,27 +316,6 @@ class _HomeState extends State<Home> {
           Text('data'),
         ],
       ),
-    );
-  }
-
-  Stack _buildServiceSummary({@required Widget header, @required Widget summary, List<Positioned> children}) {
-    List<Widget> content = [
-      Align(
-        alignment: Alignment.topLeft,
-        child: header,
-      ),
-      Align(
-        alignment: Alignment.centerLeft,
-        child: summary,
-      )
-    ];
-
-    if(children != null) {
-      content.addAll(children);
-    }
-
-    return Stack(
-      children: content,
     );
   }
 }

@@ -21,6 +21,10 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
     _serviceList = [ //TODO: move it to init state
       ServiceCard(
         header: CardHeader(icon: Icons.credit_card, title: 'Crartão de crédito'),
@@ -36,7 +40,7 @@ class _HomeState extends State<Home> {
         children: [
           Positioned(
             right: 0,
-            height: MediaQuery.of(context).size.height * 0.3,
+            height: MediaQuery.of(context).size.height * 0.3, //TODO: Improve how to set this value, it should be the card height less the footer height
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
@@ -109,10 +113,6 @@ class _HomeState extends State<Home> {
         footer: CardFooter(icon: Icons.fastfood, text: 'Apagar compra de R\$ 60,00 em Restaurante Give Me Food com 6.000pts'),
       ),
     ];
-    
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
 
     return Scaffold(
       backgroundColor: const Color(0xFF76309c),

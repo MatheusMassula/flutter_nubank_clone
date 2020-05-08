@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_nubank_clone/widgets/card_footer.dart';
 import 'package:flutter_nubank_clone/widgets/card_header.dart';
+import 'package:flutter_nubank_clone/widgets/fast_action_card.dart';
 import 'package:flutter_nubank_clone/widgets/service_card.dart';
 
 class Home extends StatefulWidget {
@@ -13,6 +14,7 @@ class _HomeState extends State<Home> {
   bool _isExpanded = false;
   bool _isAccountAmoutVisible = false;
   List<Widget> _serviceList;
+  List<FastCardData> _fastActionList;
 
   @override
   void initState() {
@@ -114,6 +116,57 @@ class _HomeState extends State<Home> {
       ),
     ];
 
+    _fastActionList = [
+      FastCardData(
+        icon: Icons.credit_card,
+        text: 'Cartão virtual'
+      ),
+      FastCardData(
+        icon: Icons.monetization_on,
+        text: 'Transferir'
+      ),
+      FastCardData(
+        icon: Icons.forum,
+        text: 'Cobrar'
+      ),
+      FastCardData(
+        icon: Icons.receipt,
+        text: 'Pagar'
+      ),
+      FastCardData(
+        icon: Icons.lock_open,
+        text: 'Bloquear cartão'
+      ),
+      FastCardData(
+        icon: Icons.tune,
+        text: 'Ajustar limite'
+      ),
+      FastCardData(
+        icon: Icons.person_add,
+        text: 'Indicar amigos'
+      ),
+      FastCardData(
+        icon: Icons.phone_iphone,
+        text: 'Recarga de celular'
+      ),
+      FastCardData(
+        icon: Icons.attach_money,
+        text: 'Empréstimo'
+      ),
+      FastCardData(
+        icon: Icons.add,
+        text: 'Depositar'
+      ),
+      FastCardData(
+        icon: Icons.live_help,
+        text: 'Me ajuda'
+      ),
+      FastCardData(
+        icon: Icons.reorder,
+        text: 'Organizar atalhos'
+      ),
+    ];
+
     return Scaffold(
       backgroundColor: const Color(0xFF76309c),
       body: ListView(
@@ -121,7 +174,7 @@ class _HomeState extends State<Home> {
         children: <Widget>[
           _buildSettingsSection(),
           _buildServicesSection(),
-          _buildCommonActionsSection()
+          _buildFastActionsSection()
         ],
       )
     );
@@ -263,7 +316,7 @@ class _HomeState extends State<Home> {
     Size screenSize = MediaQuery.of(context).size;
 
     return Container(
-      height: screenSize.height * 0.7,
+      height: screenSize.height * 0.67,
       width: 300,
       margin: const EdgeInsets.all(16.0),
       child: ListView(
@@ -272,50 +325,33 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Container _buildCommonActionsSection() {
+  Container _buildFastActionsSection() {
     Size screenSize = MediaQuery.of(context).size;
 
     return Container(
-      height: screenSize.height * 0.2,
-      width: 300,
+      height: screenSize.height * 0.15,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-        ],
+        children: _fastActionList.map((shortCutItem) {
+          return Padding(
+            padding: EdgeInsets.only(left: shortCutItem.icon == _fastActionList[0].icon ? 16.0 : 0, right: shortCutItem.icon == _fastActionList[_fastActionList.length - 1].icon ? 16.0 : 0),
+            child: FastAction(
+              icon: shortCutItem.icon,
+              text: shortCutItem.text
+            ),
+          );
+        }).toList()
       ),
     );
   }
+}
+
+class FastCardData {
+  final IconData icon;
+  final String text;
+
+  FastCardData({
+    @required this.icon,
+    @required this.text,
+  });
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_nubank_clone/widgets/card_footer.dart';
 import 'package:flutter_nubank_clone/widgets/card_header.dart';
+import 'package:flutter_nubank_clone/widgets/quick_action_card.dart';
 import 'package:flutter_nubank_clone/widgets/service_card.dart';
 
 class Home extends StatefulWidget {
@@ -13,6 +14,7 @@ class _HomeState extends State<Home> {
   bool _isExpanded = false;
   bool _isAccountAmoutVisible = false;
   List<Widget> _serviceList;
+  List<QuickActionData> _fastActionList;
 
   @override
   void initState() {
@@ -25,95 +27,6 @@ class _HomeState extends State<Home> {
       DeviceOrientation.portraitUp,
     ]);
 
-    _serviceList = [ //TODO: move it to init state
-      ServiceCard(
-        header: CardHeader(icon: Icons.credit_card, title: 'Crartão de crédito'),
-        content: Padding(
-          padding: const EdgeInsets.only(left: 32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: _buildCreditCardServiceContent(),
-          ),
-        ),
-        footer: CardFooter(icon: Icons.laptop_mac, text: 'Compra mais recente em Logo Ali Empreencimento no valor de R\$ 3.262,16'),
-        children: [
-          Positioned(
-            right: 0,
-            height: MediaQuery.of(context).size.height * 0.3, //TODO: Improve how to set this value, it should be the card height less the footer height
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    width: 10,
-                    color: const Color(0xfff19e39),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    width: 10,
-                    color: const Color(0xff52b8c5),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    width: 10,
-                    color: const Color(0xffa8c850),
-                  )
-                )
-              ],
-            )
-          )
-        ],
-      ),
-      ServiceCard(
-        header: CardHeader(icon: Icons.monetization_on, title: 'Conta'),
-        content: Padding(
-          padding: const EdgeInsets.only(left: 32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: _buildAccountServiceContent(),
-          ),
-        ),
-        footer: CardFooter(icon: Icons.credit_card, text: 'Compra em Ambev de R\$ 100,00 no débito ontem'),
-        children: [
-          Positioned(
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 16.0, right: 32.0),
-                child: IconButton(
-                  icon: Icon(_isAccountAmoutVisible ? Icons.visibility_off : Icons.visibility),
-                  onPressed: () {
-                    setState(() {
-                      _isAccountAmoutVisible = !_isAccountAmoutVisible;
-                    });
-                  }
-                ),
-              ),
-            )
-          )
-        ],
-      ),
-      ServiceCard(
-        header: CardHeader(icon: Icons.card_giftcard, title: 'Rewards'),
-        content: Padding(
-          padding: const EdgeInsets.only(left: 32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: _buildRewardsServiceContent(),
-          ),
-        ),
-        footer: CardFooter(icon: Icons.fastfood, text: 'Apagar compra de R\$ 60,00 em Restaurante Give Me Food com 6.000pts'),
-      ),
-    ];
-
     return Scaffold(
       backgroundColor: const Color(0xFF76309c),
       body: ListView(
@@ -121,7 +34,7 @@ class _HomeState extends State<Home> {
         children: <Widget>[
           _buildSettingsSection(),
           _buildServicesSection(),
-          _buildCommonActionsSection()
+          _buildQuickActionsSection()
         ],
       )
     );
@@ -262,8 +175,97 @@ class _HomeState extends State<Home> {
   Container _buildServicesSection() {
     Size screenSize = MediaQuery.of(context).size;
 
+    _serviceList = [
+      ServiceCard(
+        header: CardHeader(icon: Icons.credit_card, title: 'Crartão de crédito'),
+        content: Padding(
+          padding: const EdgeInsets.only(left: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _buildCreditCardServiceContent(),
+          ),
+        ),
+        footer: CardFooter(icon: Icons.laptop_mac, text: 'Compra mais recente em Logo Ali Empreencimento no valor de R\$ 3.262,16'),
+        children: [
+          Positioned(
+            right: 0,
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: 10,
+                    color: const Color(0xfff19e39),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: 10,
+                    color: const Color(0xff52b8c5),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    width: 10,
+                    color: const Color(0xffa8c850),
+                  )
+                )
+              ],
+            )
+          )
+        ],
+      ),
+      ServiceCard(
+        header: CardHeader(icon: Icons.monetization_on, title: 'Conta'),
+        content: Padding(
+          padding: const EdgeInsets.only(left: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _buildAccountServiceContent(),
+          ),
+        ),
+        footer: CardFooter(icon: Icons.credit_card, text: 'Compra em Ambev de R\$ 100,00 no débito ontem'),
+        children: [
+          Positioned(
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16.0, right: 32.0),
+                child: IconButton(
+                  icon: Icon(_isAccountAmoutVisible ? Icons.visibility_off : Icons.visibility),
+                  onPressed: () {
+                    setState(() {
+                      _isAccountAmoutVisible = !_isAccountAmoutVisible;
+                    });
+                  }
+                ),
+              ),
+            )
+          )
+        ],
+      ),
+      ServiceCard(
+        header: CardHeader(icon: Icons.card_giftcard, title: 'Rewards'),
+        content: Padding(
+          padding: const EdgeInsets.only(left: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _buildRewardsServiceContent(),
+          ),
+        ),
+        footer: CardFooter(icon: Icons.fastfood, text: 'Apagar compra de R\$ 60,00 em Restaurante Give Me Food com 6.000pts'),
+      ),
+    ];
+
     return Container(
-      height: screenSize.height * 0.7,
+      height: screenSize.height * 0.67,
       width: 300,
       margin: const EdgeInsets.all(16.0),
       child: ListView(
@@ -272,50 +274,86 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Container _buildCommonActionsSection() {
-    Size screenSize = MediaQuery.of(context).size;
+  Container _buildQuickActionsSection() {
+    Size _screenSize = MediaQuery.of(context).size;
+
+    _fastActionList = [
+      QuickActionData(
+        icon: Icons.credit_card,
+        text: 'Cartão virtual'
+      ),
+      QuickActionData(
+        icon: Icons.monetization_on,
+        text: 'Transferir'
+      ),
+      QuickActionData(
+        icon: Icons.forum,
+        text: 'Cobrar'
+      ),
+      QuickActionData(
+        icon: Icons.receipt,
+        text: 'Pagar'
+      ),
+      QuickActionData(
+        icon: Icons.lock_open,
+        text: 'Bloquear cartão'
+      ),
+      QuickActionData(
+        icon: Icons.tune,
+        text: 'Ajustar limite'
+      ),
+      QuickActionData(
+        icon: Icons.person_add,
+        text: 'Indicar amigos'
+      ),
+      QuickActionData(
+        icon: Icons.phone_iphone,
+        text: 'Recarga de celular'
+      ),
+      QuickActionData(
+        icon: Icons.attach_money,
+        text: 'Empréstimo'
+      ),
+      QuickActionData(
+        icon: Icons.add,
+        text: 'Depositar'
+      ),
+      QuickActionData(
+        icon: Icons.live_help,
+        text: 'Me ajuda'
+      ),
+      QuickActionData(
+        icon: Icons.reorder,
+        text: 'Organizar atalhos'
+      ),
+    ];
 
     return Container(
-      height: screenSize.height * 0.2,
-      width: 300,
+      height: _screenSize.height * 0.15,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-        ],
+        children: _fastActionList.map((shortCutItem) {
+          return Padding(
+            padding: EdgeInsets.only(left: shortCutItem.icon == _fastActionList[0].icon ? 16.0 : 0, right: shortCutItem.icon == _fastActionList[_fastActionList.length - 1].icon ? 16.0 : 0),
+            child: QuickAction(
+              icon: shortCutItem.icon,
+              text: shortCutItem.text
+            ),
+          );
+        }).toList()
       ),
     );
   }
+}
+
+class QuickActionData {
+  final IconData icon;
+  final String text;
+  final Function() onTap;
+
+  QuickActionData({
+    @required this.icon,
+    @required this.text,
+    this.onTap
+  });
 }

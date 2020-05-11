@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class FastAction extends StatelessWidget {
+class QuickAction extends StatelessWidget {
   final IconData icon;
   final String text;
 
-  const FastAction({
+  const QuickAction({
     Key key,
     @required this.icon,
     @required this.text

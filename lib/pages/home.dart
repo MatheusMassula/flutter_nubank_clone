@@ -132,6 +132,11 @@ class _HomeState extends State<Home> {
  
   ExpansionTile _buildSettingsSection() {
     return ExpansionTile(
+      onExpansionChanged: (expasion) {
+        setState(() {
+          _isExpanded = expasion;
+        });
+      },
       title: Column(
         children: [
           Row(

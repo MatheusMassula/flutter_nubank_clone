@@ -4,4 +4,4 @@ This project was made with the intention to clone the NuBank layout, as an exerc
 
 Here is what was made since the start:
 
-<img src="https://github.com/MatheusMassula/flutter_nubank_copy/blob/master/work evidence/nubank clone.gif"/>
+<img src="https://github.com/MatheusMassula/flutter_nubank_clone/blob/master/work%20evidence/nubank%20clone.gif"/>

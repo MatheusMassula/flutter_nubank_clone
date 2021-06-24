@@ -167,7 +167,26 @@ class _HomeState extends State<Home> {
       trailing: Container(height: 0, width: 0),
       backgroundColor: Color(0xFF76309c),
       children: List<Widget>.generate(9, (index) {
-        return Text('data $index');
+        return index.isEven ?
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(32.0, 8.0, 16.0, 8.0),
+                child: Icon(
+                  Icons.mail_outline,
+                  color: Colors.white,
+                ),
+              ),
+              Text(
+                'Menu number $index',
+                style: TextStyle(color: Colors.white),
+              )
+            ],
+          ) : 
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+            child: Divider(color: Colors.white,),
+          );
       }).toList(),
     );
   }

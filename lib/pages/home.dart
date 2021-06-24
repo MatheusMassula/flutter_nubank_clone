@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_nubank_clone/widgets/card_footer.dart';
 import 'package:flutter_nubank_clone/widgets/card_header.dart';
+import 'package:flutter_nubank_clone/widgets/menu_item.dart';
 import 'package:flutter_nubank_clone/widgets/service_card.dart';
 
 class Home extends StatefulWidget {
@@ -115,13 +116,13 @@ class _HomeState extends State<Home> {
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFF76309c),
+      backgroundColor: const Color(0xFF7612c6),
       body: ListView(
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           _buildSettingsSection(),
           _buildServicesSection(),
-          _buildCommonActionsSection()
+          _buildMenuItems()
         ],
       )
     );
@@ -252,9 +253,28 @@ class _HomeState extends State<Home> {
         ]
       ),
       trailing: Container(height: 0, width: 0),
-      backgroundColor: Color(0xFF76309c),
+      backgroundColor: Color(0xFF7612c6),
       children: List<Widget>.generate(9, (index) {
-        return Text('data $index');
+        return index.isEven ?
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(32.0, 8.0, 16.0, 8.0),
+              child: Icon(
+                Icons.mail_outline,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              'Menu number $index',
+              style: TextStyle(color: Colors.white),
+            )
+          ],
+        ) : 
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          child: Divider(color: Colors.white,),
+        );
       }).toList(),
     );
   }
@@ -272,49 +292,78 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Container _buildCommonActionsSection() {
-    Size screenSize = MediaQuery.of(context).size;
-
-    return Container(
-      height: screenSize.height * 0.2,
-      width: 300,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-        ],
+  Widget _buildMenuItems() {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: MenuItem(
+                  onTap: () {
+                    print('Depositar was taped');
+                  },
+                  icon: Icons.input_rounded,
+                  text: 'Depositar',
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: MenuItem(
+                  onTap: () {
+                    print('Tranferir was taped');
+                  },
+                  icon: Icons.outbond_outlined,
+                  text: 'Tranferir',
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: MenuItem(
+                  onTap: () {
+                    print('Depositar was taped');
+                  },
+                  icon: Icons.input_rounded,
+                  text: 'Depositar',
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: MenuItem(
+                  onTap: () {
+                    print('Tranferir was taped');
+                  },
+                  icon: Icons.outbond_outlined,
+                  text: 'Tranferir',
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: MenuItem(
+                  onTap: () {
+                    print('Depositar was taped');
+                  },
+                  icon: Icons.input_rounded,
+                  text: 'Depositar',
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: MenuItem(
+                  onTap: () {
+                    print('Tranferir was taped');
+                  },
+                  icon: Icons.outbond_outlined,
+                  text: 'Tranferir',
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
